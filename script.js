@@ -8,6 +8,20 @@ window.addEventListener('load', function () {
     }
 });
 
+// Contact form submit झाल्यावर (Web3Forms च्या redirect मुळे) परत आपल्याच site वर आलो
+// तर generic page ऐवजी इथेच सुंदर "Thank You" संदेश दाखवतो
+(function showThankYouIfSubmitted() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('submitted') === 'true') {
+        const form = document.getElementById('contactForm');
+        const thankYou = document.getElementById('thankYouMessage');
+        if (form) form.style.display = 'none';
+        if (thankYou) thankYou.style.display = 'block';
+        // URL स्वच्छ करतो (पुन्हा refresh केलं तर परत तोच संदेश दिसू नये)
+        window.history.replaceState({}, document.title, window.location.pathname + '#contact');
+    }
+})();
+
 // Scroll to top button
 const topBtn = document.getElementById('topBtn');
 window.addEventListener('scroll', () => {
